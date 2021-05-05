@@ -1,9 +1,17 @@
 const { Command } = require('commander');
 const fs = require("fs");
-const encodeText = (text) => {
-    return `encode: ${text}`;
+const encodeText = (text, shift) => {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    const letterArr = letters.split("");
+    const textArr = text.trim().split("");
+    const encodeTextArr = textArr.map((letter) => {
+        return letterArr[(letterArr.indexOf(letter) + shift) % letterArr.length];
+        });
+    return encodeTextArr.join('');
 }
+
 let encodedText = "";
+
 const program = new Command();
 program.version('0.0.1');
 program
@@ -14,7 +22,6 @@ program
 program.parse(process.argv);
 
 const options = program.opts();
-
 const outputText = (encodedText) => {
     if (options.hasOwnProperty("output")) {
         const writeableStream = fs.createWriteStream(options.output);
@@ -28,14 +35,14 @@ const outputText = (encodedText) => {
 if (options.hasOwnProperty("input")) {
     const readableStream = fs.createReadStream(options.input, "utf8");
     readableStream.on("data", function(inputText){
-        encodedText = encodeText(inputText);
+        encodedText = encodeText(inputText, Number(options.shift));
         outputText(encodedText);
     });
 } else {
     process.stdin.setEncoding("utf8");
     process.stdin.on("readable", () => {
         const inputText = process.stdin.read();
-            encodedText = encodeText(inputText);
+            encodedText = encodeText(inputText, Number(options.shift));
             outputText(encodedText);
     });
 }
