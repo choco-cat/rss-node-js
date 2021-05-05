@@ -7,11 +7,13 @@
   "description": "Task 1",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "lint": "eslint app.js"
   },
   "dependencies": {
     "commander": "^7.2.0",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "eslint-config-airbnb-base": "^14.2.1"
   },
   "engines": {
     "node": "12.x"
@@ -19,5 +21,8 @@
   "license": "MIT",
   "keywords": [
     "node"
-  ]
+  ],
+  "devDependencies": {
+    "eslint-config-airbnb-standard": "^3.1.0"
+  }
 }
