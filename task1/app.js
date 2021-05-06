@@ -2,7 +2,7 @@ const helper = require('./functions');
 const { Command } = require('commander');
 const fs = require("fs");
 
-let encodedText = "";
+let outputText = "";
 
 const program = new Command();
 program.version('0.0.1');
@@ -14,7 +14,7 @@ program
 program.parse(process.argv);
 
 const options = program.opts();
-const outputText = (encodedText) => {
+const writeText = (encodedText) => {
     if (options.hasOwnProperty("output")) {
         const writeableStream = fs.createWriteStream(options.output);
         writeableStream.write(encodedText);
@@ -27,14 +27,14 @@ const outputText = (encodedText) => {
 if (options.hasOwnProperty("input")) {
     const readableStream = fs.createReadStream(options.input, "utf8");
     readableStream.on("data", function(inputText){
-        encodedText = helper.encode(inputText, Number(options.shift));
-        outputText(encodedText);
+        outputText = helper.encodeDecode(inputText, Number(options.shift), options.action);
+        writeText(outputText);
     });
 } else {
     process.stdin.setEncoding("utf8");
     process.stdin.on("readable", () => {
         const inputText = process.stdin.read();
-            encodedText = helper.encode(inputText, Number(options.shift));
-            outputText(encodedText);
+        outputText = helper.encodeDecode(inputText, Number(options.shift), options.action);
+        writeText(outputText);
     });
 }
