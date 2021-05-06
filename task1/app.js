@@ -1,17 +1,6 @@
+const helper = require('./functions');
 const { Command } = require('commander');
 const fs = require("fs");
-const encodeText = (text, shift) => {
-
-    const letters = "abcdefghijklmnopqrstuvwxyz";
-    const letterArr = letters.split("");
-    const textArr = text.trim().split("");
-    const encodeTextArr = textArr.map((letter) => {
-        let index = (letterArr.indexOf(letter) + shift) % letterArr.length;
-        index = (index < 0) ? index + letterArr.length : index;
-        return letterArr[index];
-    });
-    return encodeTextArr.join('');
-}
 
 let encodedText = "";
 
@@ -38,14 +27,14 @@ const outputText = (encodedText) => {
 if (options.hasOwnProperty("input")) {
     const readableStream = fs.createReadStream(options.input, "utf8");
     readableStream.on("data", function(inputText){
-        encodedText = encodeText(inputText, Number(options.shift));
+        encodedText = helper.encode(inputText, Number(options.shift));
         outputText(encodedText);
     });
 } else {
     process.stdin.setEncoding("utf8");
     process.stdin.on("readable", () => {
         const inputText = process.stdin.read();
-            encodedText = encodeText(inputText, Number(options.shift));
+            encodedText = helper.encode(inputText, Number(options.shift));
             outputText(encodedText);
     });
 }
