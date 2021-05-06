@@ -16,9 +16,8 @@ program.parse(process.argv);
 const options = program.opts();
 const writeText = (encodedText) => {
     if (options.hasOwnProperty("output")) {
-        const writeableStream = fs.createWriteStream(options.output);
-        writeableStream.write(encodedText);
-        writeableStream.end("");
+        const writeableStream = fs.createWriteStream(options.output, {flags: "a"});
+        writeableStream.end(`${encodedText}\n`);
     } else {
         process.stdout.write("DATA " + encodedText);
     }
