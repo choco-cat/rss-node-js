@@ -7,19 +7,20 @@ let outputText = "";
 const program = new Command();
 program.version('0.0.1');
 program
+    .option('-a, --action <type>', 'an action encode/decode')
     .option('-s, --shift <type>', 'a shift for code')
     .option('-i, --input <type>', 'an input file')
-    .option('-o, --output <type>', 'an output file')
-    .option('-a, --action <type>', 'an action encode/decode');
+    .option('-o, --output <type>', 'an output file');
 program.parse(process.argv);
 
 const options = program.opts();
 const writeText = (encodedText) => {
     if (options.hasOwnProperty("output")) {
         const writeableStream = fs.createWriteStream(options.output, {flags: "a"});
-        writeableStream.end(`${encodedText}\n`);
+        writeableStream.write(`${encodedText}\n`);
+        writeableStream.end();
     } else {
-        process.stdout.write("DATA " + encodedText);
+        process.stdout.write(encodedText);
     }
 }
 
