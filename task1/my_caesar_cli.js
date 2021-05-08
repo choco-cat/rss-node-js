@@ -1,30 +1,16 @@
-const helper = require('./functions');
+const { promisify } = require('util');
+const stream = require('stream');
+const pipeline = promisify(stream.pipeline);
 const program = require('./program');
-const fs = require("fs");
 const options = program.opts();
-let outputText = "";
 
-const writeText = (encodedText) => {
-    if (options.hasOwnProperty("output")) {
-        const writeableStream = fs.createWriteStream(options.output, {flags: "a"});
-        writeableStream.write(`${encodedText}\n`);
-        writeableStream.end();
-    } else {
-        process.stdout.write(encodedText);
-    }
+async function app() {
+        const { inputStream, transformStream, outputStream } = require('./streams')
+        pipeline(
+            await inputStream(options.input),
+            await transformStream(options.shift, options.action),
+            await outputStream(options.output)
+        );
 }
 
-if (options.hasOwnProperty("input")) {
-    const readableStream = fs.createReadStream(options.input, "utf8");
-    readableStream.on("data", function(inputText){
-        outputText = helper.encodeDecode(inputText, Number(options.shift), options.action);
-        writeText(outputText);
-    });
-} else {
-    process.stdin.setEncoding("utf8");
-    process.stdin.on("readable", () => {
-        const inputText = process.stdin.read();
-        outputText = helper.encodeDecode(inputText, Number(options.shift), options.action);
-        writeText(outputText);
-    });
-}
+app().then();

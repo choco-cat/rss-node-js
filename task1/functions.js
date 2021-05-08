@@ -18,6 +18,7 @@ const transform = (text, shift) => {
     const letters = "abcdefghijklmnopqrstuvwxyz";
     const letterArr = letters.split("");
     const textArr = text.trim().split("");
+    shift = Number(shift);
     const encodeTextArr = textArr.map((letter) => {
         let encodeLetter = letter;
         const isUppercase = (letter === letter.toUpperCase()) ? true : false;
@@ -28,7 +29,7 @@ const transform = (text, shift) => {
         }
         return encodeLetter;
     });
-    return encodeTextArr.join('');
+    return `${encodeTextArr.join('')}\n`;
 }
 
 module.exports = helper;
