@@ -1,30 +1,32 @@
 const fs = require('fs');
 const cipher = require('./cipher');
+const program = require('./program');
+const options = program.opts();
 
-async function inputStream(filePath) {
-    if (filePath === 'stdin') {
+async function inputStream() {
+    if (options.input === 'stdin') {
         return process.stdin;
     }
-    const Readable = fs.createReadStream(filePath, "utf8");
+    const Readable = fs.createReadStream(options.input, "utf8");
     return Readable;
 }
 
-async function outputStream(filePath) {
-    if (filePath === 'stdout') {
+async function outputStream() {
+    if (options.output === 'stdout') {
         return process.stdout;
     }
-    const Writable = fs.createWriteStream(filePath, { flags: 'a+' });
+    const Writable = fs.createWriteStream(options.output, { flags: 'a+' });
     return Writable;
 }
 
-const transformStream = (shift, action) => {
+const transformStream = () => {
     return new Promise((resolve) => {
-        if (!isNaN(shift)) {
-            if (action !== 'encode' && action !== 'decode') {
-                console.log(`Wrong action: ${action}`);
+        if (!isNaN(options.shift)) {
+            if (options.action !== 'encode' && options.action !== 'decode') {
+                console.log(`Wrong action: ${options.action}`);
                 process.exit(1);
             }
-            resolve(new cipher(shift, action));
+            resolve(new cipher(options.shift, options.action));
         } else {
             console.error('Shift is not a number');
             process.exit(1);
