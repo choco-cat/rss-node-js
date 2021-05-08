@@ -6,5 +6,6 @@ program
     .option('-s, --shift <value>', 'a shift for code')
     .option('-i, --input <filename>', 'an input file','stdin')
     .option('-o, --output <filename>', 'an output file','stdout');
-program.parse(process.argv);
+    program.parse(process.argv);
+
 module.exports = program;

@@ -22,13 +22,16 @@ async function outputStream() {
 const transformStream = () => {
     return new Promise((resolve) => {
         if (!isNaN(options.shift)) {
-            if (options.action !== 'encode' && options.action !== 'decode') {
-                console.log(`Wrong action: ${options.action}`);
+            if (typeof options.action === 'undefined') {
+                process.stderr.write(`Missed action`);
+                process.exit(1);
+            } else if (options.action !== 'encode' && options.action !== 'decode') {
+                process.stderr.write(`Wrong action: ${options.action}`);
                 process.exit(1);
             }
             resolve(new cipher(options.shift, options.action));
         } else {
-            console.error('Shift is not a number');
+            process.stderr.write('Shift is not a number');
             process.exit(1);
         }
     });
