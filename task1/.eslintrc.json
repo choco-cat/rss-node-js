@@ -1,0 +1,18 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb-standard", "airbnb-base"],
+  "rules": {
+    "semi": ["error", "always"],
+    "space-before-function-paren": 0,
+    "no-plusplus": 0,
+    "no-param-reassign": 0,
+    "no-bitwise": 0,
+    "import/prefer-default-export": 0
+  },
+  "globals": {
+    "Audio": true
+  }
+}

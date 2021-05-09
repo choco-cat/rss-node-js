@@ -1,0 +1,30 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "task1",
+  "version": "0.0.1",
+  "description": "Task 1",
+  "main": "my_caesar_cli.js",
+  "scripts": {
+    "start": "node my_caesar_cli",
+    "lint": "eslint my_caesar_cli.js"
+  },
+  "dependencies": {
+    "commander": "^7.2.0",
+    "fs": "^0.0.1-security",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "stream": "^0.0.2",
+    "util": "^0.12.3"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node"
+  ],
+  "devDependencies": {
+    "eslint-config-airbnb-standard": "^3.1.0"
+  }
+}
