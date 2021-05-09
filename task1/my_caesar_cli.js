@@ -11,4 +11,4 @@ async function app() {
         ).then();
 }
 
-app().then();
+app();
