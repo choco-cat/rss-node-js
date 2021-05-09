@@ -19,7 +19,7 @@ async function inputStream() {
     });
 }
 
-async function outputStream() {
+function outputStream() {
     if (options.output === 'stdout') {
         return process.stdout;
     }

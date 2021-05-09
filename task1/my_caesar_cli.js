@@ -8,7 +8,7 @@ async function app() {
             await inputStream(),
             await transformStream(),
             await outputStream()
-        ).then();
+        );
 }
 
 app();
