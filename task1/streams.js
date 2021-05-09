@@ -13,6 +13,7 @@ async function inputStream() {
                 process.stderr.write(`Input file ${options.input} is not readable or does not exist`);
                 process.exit(1);
             } else {
+                console.log('File recorded');
                 resolve( fs.createReadStream(options.input, "utf8"));
             }
         });
@@ -24,7 +25,7 @@ async function outputStream() {
         return process.stdout;
     }
     return new Promise((resolve) => {
-        fs.access(options.output, fs.constants.W_OK, err => {
+        fs.access(options.output, fs.constants.W_OK | fs.constants.F_OK, err => {
             if (err) {
                 process.stderr.write(`Output file ${options.output} is not writable or does not exist`);
                 process.exit(1);
