@@ -13,7 +13,6 @@ async function inputStream() {
                 process.stderr.write(`Input file ${options.input} is not readable or does not exist`);
                 process.exit(1);
             } else {
-                console.log('File recorded');
                 resolve( fs.createReadStream(options.input, "utf8"));
             }
         });
