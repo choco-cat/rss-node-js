@@ -7,16 +7,32 @@ async function inputStream() {
     if (options.input === 'stdin') {
         return process.stdin;
     }
-    const Readable = fs.createReadStream(options.input, "utf8");
-    return Readable;
+    return new Promise((resolve) => {
+        fs.access(options.input, fs.constants.R_OK, err => {
+            if (err) {
+                process.stderr.write(`Input file ${options.input} is not readable or does not exist`);
+                process.exit(1);
+            } else {
+                resolve( fs.createReadStream(options.input, "utf8"));
+            }
+        });
+    });
 }
 
 async function outputStream() {
     if (options.output === 'stdout') {
         return process.stdout;
     }
-    const Writable = fs.createWriteStream(options.output, { flags: 'a+' });
-    return Writable;
+    return new Promise((resolve) => {
+        fs.access(options.output, fs.constants.W_OK, err => {
+            if (err) {
+                process.stderr.write(`Output file ${options.output} is not writable or does not exist`);
+                process.exit(1);
+            } else {
+                resolve(fs.createWriteStream(options.output, { flags: 'a' }));
+            }
+        });
+    });
 }
 
 const transformStream = () => {
